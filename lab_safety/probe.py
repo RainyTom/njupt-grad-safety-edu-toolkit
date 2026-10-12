@@ -1,25 +1,27 @@
 # -*- coding: utf-8 -*-
 """
-probe_lab.py —— 实验室平台联调探针
+probe.py —— 实验室平台联调探针
 ==================================
-用真实 token 探查各接口返回的实际 JSON 结构，用于校准 njupt_lab_api.py
+用真实 token 探查各接口返回的实际 JSON 结构，用于校准 api.py
 中的字段名与请求参数（不提交任何会消耗考试次数的请求，除非 --start-exam）。
 
 用法：
-    python probe_lab.py --token <你的Access-Token>
+    python lab_safety/probe.py --token <你的Access-Token>
     # 或从 config.json 的 lab_token 读取（建议先保存配置）
-    python probe_lab.py
+    python lab_safety/probe.py
     # 额外探查"开始考试"接口（会消耗一次今日考试次数，谨慎）：
-    python probe_lab.py --start-exam
+    python lab_safety/probe.py --start-exam
 """
 import argparse
 import io
 import json
+import os
 import sys
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from njupt_lab_api import LabApi, LabApiError  # noqa: E402
+from api import LabApi, LabApiError  # noqa: E402
 
 
 def dump(title, data, max_len=800):

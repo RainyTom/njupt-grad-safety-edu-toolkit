@@ -2,17 +2,19 @@
 __pycache__/
 *.py[cod]
 
-# PyInstaller 构建产物（build 中间产物忽略；dist 只跟踪打包好的 exe）
-build/
-dist/*
-!dist/NJUPT课程助手.exe
+# 运行时配置（含 Access-Token，切勿提交）
+config.json
+lab_safety/config.json
 
-# 本地分析/运行临时文件
-_probe/
+# 运行时下载物（本人签字的承诺书等）
+lab_safety/实验室安全承诺书.doc
+*.doc
+
+# 日志与测试临时文件
 *.log
-
-# 运行时下载的敏感文件（本人签字的承诺书等）
-实验室安全承诺书.doc
-
-# 测试临时配置
 _cfg_*_test.json
+
+# 编辑器 / 系统
+.DS_Store
+.idea/
+.vscode/
