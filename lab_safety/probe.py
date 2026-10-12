@@ -12,6 +12,7 @@ probe.py —— 实验室平台联调探针
     # 额外探查"开始考试"接口（会消耗一次今日考试次数，谨慎）：
     python lab_safety/probe.py --start-exam
 """
+
 import argparse
 import io
 import json
@@ -39,10 +40,19 @@ def dump(title, data, max_len=800):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--token", default=None, help="Access-Token；缺省读 config.json 的 lab_token")
-    ap.add_argument("--base", default=None, help="后端 API 基址，缺省 http://10.22.192.38:9090/jeecg-boot")
-    ap.add_argument("--start-exam", action="store_true",
-                    help="调用 startExam 接口（会消耗一次今日考试次数）")
+    ap.add_argument(
+        "--token", default=None, help="Access-Token；缺省读 config.json 的 lab_token"
+    )
+    ap.add_argument(
+        "--base",
+        default=None,
+        help="后端 API 基址，缺省 http://10.22.192.38:9090/jeecg-boot",
+    )
+    ap.add_argument(
+        "--start-exam",
+        action="store_true",
+        help="调用 startExam 接口（会消耗一次今日考试次数）",
+    )
     args = ap.parse_args()
 
     cfg = LabApi.load_config()
@@ -121,7 +131,10 @@ def main():
         print("## 8. 开始考试（消耗一次次数）")
         try:
             st = api.start_exam(exams[0].get("id"))
-            dump("start_exam", {k: (v if k != "records" else v[:2]) for k, v in st.items()})
+            dump(
+                "start_exam",
+                {k: (v if k != "records" else v[:2]) for k, v in st.items()},
+            )
             dump("question0", st["records"][0])
         except Exception as e:  # noqa: BLE001
             print("!! start_exam 失败: %s" % e)

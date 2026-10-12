@@ -190,9 +190,7 @@ if cmd == "commitment":
         log("承诺书已上传并绑定到账号", "success")
     else:
         log("模板已下载: %s" % api.download_commitment(), "success")
-        log(
-            "打印签字后执行: %s commitment --upload 你的照片.jpg" % HELP, "info"
-        )
+        log("打印签字后执行: %s commitment --upload 你的照片.jpg" % HELP, "info")
     sys.exit(0)
 
 # 11. 未知命令

@@ -29,24 +29,24 @@ Local Storage → 复制 `Access-Token` 的值。
 
 ## 2. 命令
 
-| 命令 | 说明 |
-|------|------|
-| `config --token X` | 写入 / 更新配置（`--base`、`--web` 可改 API 地址） |
-| `status` | 列出全部课程：观看进度 / 完成状态 / 已答题数 |
-| `learn` | 刷全部未完成课程 |
-| `exam` | 自动考试（先收集题库答案再作答提交） |
-| `commitment` | 下载《实验室安全承诺书》模板 |
-| `commitment --upload 照片.jpg` | 上传已签字承诺书并绑定到账号 |
+| 命令                           | 说明                                               |
+| ------------------------------ | -------------------------------------------------- |
+| `config --token X`             | 写入 / 更新配置（`--base`、`--web` 可改 API 地址） |
+| `status`                       | 列出全部课程：观看进度 / 完成状态 / 已答题数       |
+| `learn`                        | 刷全部未完成课程                                   |
+| `exam`                         | 自动考试（先收集题库答案再作答提交）               |
+| `commitment`                   | 下载《实验室安全承诺书》模板                       |
+| `commitment --upload 照片.jpg` | 上传已签字承诺书并绑定到账号                       |
 
 ### learn 的选项
 
-| 选项 | 默认 | 说明 |
-|------|------|------|
-| `--speed N` | 2 | 播放倍速。平台按真实时长校验，实测 **2~3 倍可正常刷完**，5 倍会被拒绝并重置进度 |
-| `--workers N` | 1 | 并发课程数。不同课程计时互不影响，可多门并行缩短总时长 |
-| `--course 关键字` | — | 只刷名称包含该关键字的课程（子串匹配，如 `消防`） |
-| `--fast` | 关 | 调试用：不做真实等待，通常**无法**真正完成，仅供排查 |
-| `--token <token>` | — | 临时用另一个账号 |
+| 选项              | 默认 | 说明                                                                            |
+| ----------------- | ---- | ------------------------------------------------------------------------------- |
+| `--speed N`       | 2    | 播放倍速。平台按真实时长校验，实测 **2~3 倍可正常刷完**，5 倍会被拒绝并重置进度 |
+| `--workers N`     | 1    | 并发课程数。不同课程计时互不影响，可多门并行缩短总时长                          |
+| `--course 关键字` | —    | 只刷名称包含该关键字的课程（子串匹配，如 `消防`）                               |
+| `--fast`          | 关   | 调试用：不做真实等待，通常**无法**真正完成，仅供排查                            |
+| `--token <token>` | —    | 临时用另一个账号                                                                |
 
 ```bash
 # 后台挂机：2 倍速，4 门并发，日志落盘
@@ -90,30 +90,30 @@ python lab_safety/cli.py exam                                # 自动考试
 
 ## 4. 目录说明
 
-| 文件 | 作用 |
-|------|------|
-| `api.py` | 平台接口封装与核心逻辑（`LabApi` 类），刷课 / 考试 / 题库 / 承诺书 |
-| `cli.py` | 终端入口，线性脚本，按 `sys.argv` 分发子命令 |
-| `probe.py` | 联调探针：用真实 token 打印各接口原始返回，用于排错与字段校准 |
+| 文件                  | 作用                                                                 |
+| --------------------- | -------------------------------------------------------------------- |
+| `api.py`              | 平台接口封装与核心逻辑（`LabApi` 类），刷课 / 考试 / 题库 / 承诺书   |
+| `cli.py`              | 终端入口，线性脚本，按 `sys.argv` 分发子命令                         |
+| `probe.py`            | 联调探针：用真实 token 打印各接口原始返回，用于排错与字段校准        |
 | `config.example.json` | 配置示例（复制为 `config.json` 也可，或直接用 `cli.py config` 生成） |
-| `tests/test_lab.py` | 离线端到端测试（mock HTTP） |
+| `tests/test_lab.py`   | 离线端到端测试（mock HTTP）                                          |
 
 ---
 
 ## 5. 接口速查
 
-| 用途 | 接口 |
-|------|------|
-| 我的课程 | `GET /jcedutec/courseSource/myCourseList` |
-| 课程详情 | `GET /jcedutec/courseSource/queryById` |
-| 课程弹题 | `GET /jcedutec/courseSource/queryCourseQuestionRelaByMainId` |
-| 上报进度 | `POST /jcedutec/courseSource/finishRate`（body: `{id, watchDuration}`，秒） |
-| 弹题作答 | `POST /jcedutec/courseSource/submitAnswer` |
-| 标记完成 | `POST /jcedutec/courseSource/finish` |
-| 题库（含答案） | `GET /questions/queryListByType` |
-| 我的考试 | `GET /jcedutec/exam/myExamList` |
-| 开始 / 提交考试 | `POST /jcedutec/exam/startExam`、`POST /jcedutec/exam/submitExam/{recordId}` |
-| 个人信息 / 承诺书绑定 | `GET /students/queryMyInfo`、`POST /students/updateMyInfo` |
+| 用途                  | 接口                                                                         |
+| --------------------- | ---------------------------------------------------------------------------- |
+| 我的课程              | `GET /jcedutec/courseSource/myCourseList`                                    |
+| 课程详情              | `GET /jcedutec/courseSource/queryById`                                       |
+| 课程弹题              | `GET /jcedutec/courseSource/queryCourseQuestionRelaByMainId`                 |
+| 上报进度              | `POST /jcedutec/courseSource/finishRate`（body: `{id, watchDuration}`，秒）  |
+| 弹题作答              | `POST /jcedutec/courseSource/submitAnswer`                                   |
+| 标记完成              | `POST /jcedutec/courseSource/finish`                                         |
+| 题库（含答案）        | `GET /questions/queryListByType`                                             |
+| 我的考试              | `GET /jcedutec/exam/myExamList`                                              |
+| 开始 / 提交考试       | `POST /jcedutec/exam/startExam`、`POST /jcedutec/exam/submitExam/{recordId}` |
+| 个人信息 / 承诺书绑定 | `GET /students/queryMyInfo`、`POST /students/updateMyInfo`                   |
 
 认证方式：请求头 `X-Access-Token`。
 
